@@ -31,7 +31,7 @@ if(isset($_POST['send'])){
 
 echo '<div class="container">';
 echo '<h1>Buch hinzufügen</h1>';
-echo '<form method="post" action="insert_record.php">';
+echo '<form method="post" action="insert_record.php" accept-charset="utf-8">';
 echo '<label><input type="text" name="name">Buch Name</label>';
 echo '<label><input type="text" name="isbn">Buch Isbn</label>';
 echo '<label><input type="text" name="price">Buch Preis</label>';

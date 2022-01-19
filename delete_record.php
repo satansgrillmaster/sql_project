@@ -1,5 +1,6 @@
 <?php
 
+// setup db
 require_once('./include/connect.php');
 $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
@@ -17,12 +18,13 @@ if(isset($_POST['delete'])){
         echo 'Querry: <b style="color: red">' . $sql . '</b><br>';
     }
 }
+
 $sql = 'select * from buch';
 $result = $db->query($sql);
 
 echo '<div class="container">';
 echo '<h1>Bücher löschen</h1>';
-echo '<form method="post" action="delete_record.php">';
+echo '<form method="post" action="delete_record.php" accept-charset="utf-8">';
 echo '<select name="record">';
 foreach ($result as $record){
     echo '<option value="'.$record['buch_id'].'">'.$record['buch_name'] .'</option>';

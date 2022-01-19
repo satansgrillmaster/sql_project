@@ -26,7 +26,7 @@ $result = $db->query($sql);
 
 echo '<div class="container">';
 echo '<h1>Bücher ändern</h1>';
-echo '<form method="post" action="update_record.php">';
+echo '<form method="post" action="update_record.php" accept-charset="utf-8">';
 echo '<select name="record">';
 foreach ($result as $record){
     echo '<option value="'.$record['buch_id'].'">'.$record['buch_name'] .'</option>';
