@@ -1,20 +1,18 @@
 <?php
 $logged_in = false;
 function login(){
+    $logged_in = false;
     require_once('./include/connect.php');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $username = $_POST['username'];
     $pw = $_POST['password'];
     $sql = "select username, password from users where password = '$pw' and username = '$username'";
     $result = $db->query($sql);
-
-    foreach ($result as $user){
-        echo $user['username'];
+    foreach ($result as $record){
+        $logged_in = true;
+        break;
     }
-    if($result){
-        return true;
-    }
-    return false;
+    return $logged_in;
 }
 
 header('Content-Type: text/html; charset=UTF-8');
