@@ -31,6 +31,7 @@ else{
     echo '<div class="container">';
     echo '<h1>Login</h1>';
     echo '<form method="post" action="login.php" accept-charset="utf-8">';
+    echo '<p> PS: Versuche den "admin" benutzer zu hacken ;) </p>';
 
     echo '<label><input type="text" name="username">Username</label>';
     echo '<label><input type="text" name="password">Passwort</label>';
