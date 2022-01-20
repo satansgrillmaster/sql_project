@@ -8,29 +8,13 @@ $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 header('Content-Type: text/html; charset=UTF-8');
 include('navigation.html');
 
-if(isset($_POST['update'])){
-
-    // set record attributes
-    $name = htmlspecialchars($_POST['name']);
-    $id = htmlspecialchars($_POST['record']);
-
-    // execute querry
-    $sql = "update buch set buch_name = '$name' where buch_id = $id";
-    try{
-        $db->exec($sql);
-    }
-    catch (PDOException $e){
-        echo $e->getMessage() . '<br>';
-        echo 'Querry: <b style="color: red">' . $sql . '</b><br>';
-    }
-}
-
-$sql = 'select * from buch';
+$id =  $_POST['record'];
+$sql = "select * from buch where buch_id = $id";
 $result = $db->query($sql);
 
 echo '<div class="container">';
-echo '<h1>Bücher ändern</h1>';
-echo '<form method="post" action="update_record.php" accept-charset="utf-8">';
+echo '<h1>Buch ändern</h1>';
+echo '<form method="post" action="edit_record_select.php" accept-charset="utf-8">';
 
 // print dropdown with records
 echo '<select name="record">';
@@ -39,7 +23,9 @@ foreach ($result as $record){
 }
 echo '</select>';
 echo '<label><input type="text" name="name">Neuer Name</label>';
-echo '<input type="submit" name="update" value="Ändern">';
+echo '<label><input type="text" name="isbn">Neue Isbn</label>';
+echo '<label><input type="text" name="price">Neuer Preis</label>';
+echo '<input type="submit" name="update" value="Speichern">';
 echo '</form>';
 echo '</div></body></html>';
 
