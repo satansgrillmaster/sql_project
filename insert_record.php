@@ -1,30 +1,33 @@
 <?php
 
-    function create_record(){
+// function to create new buch record in db
+function create_record()
+{
 
-        // setup db
-        require_once ('./include/connect.php');
-        $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+    // setup db connection
+    require_once('./include/connect.php');
+    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-        // set record attributes
-        $name = htmlspecialchars($_POST['name']);
-        $isbn = htmlspecialchars($_POST['isbn']);
-        $price = htmlspecialchars($_POST['price']);
+    // set record attributes
+    $name = htmlspecialchars($_POST['name']);
+    $isbn = htmlspecialchars($_POST['isbn']);
+    $price = htmlspecialchars($_POST['price']);
 
-        // execute querry
-        $sql = "insert into buch (buch_name, buch_isbn, buch_preis) values ('$name',$isbn,$price);";
-        try{
-            $db->exec($sql);
-        }
-        catch (PDOException $e){
-            echo $e->getMessage() . '<br>';
-            echo 'Querry: <b style="color: red">' . $sql . '</b><br>';
-        }
+    // execute querry
+    $sql = "insert into buch (buch_name, buch_isbn, buch_preis) values ('$name',$isbn,$price);";
+    try {
+        $db->exec($sql);
+    } catch (PDOException $e) {
+        echo $e->getMessage() . '<br>';
+        echo 'Querry: <b style="color: red">' . $sql . '</b><br>';
     }
+}
 
+// send header
 header('Content-Type: text/html; charset=UTF-8');
 include('navigation.html');
 
+//send form and check if record is create
 if(isset($_POST['send'])){
     create_record();
 }

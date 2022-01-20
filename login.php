@@ -1,29 +1,54 @@
 <?php
 $logged_in = false;
-function login(){
+$sql = '';
+$username = '';
+$pw ='';
+
+function authentification(){
+
+    //variable declaration
+    global $sql;
+    global $username;
+    global $pw;
     $logged_in = false;
+
+    // setup db connection
     require_once('./include/connect.php');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+
+    // set querry parameters
     $username = $_POST['username'];
     $pw = $_POST['password'];
     $sql = "select username, password from users where password = '$pw' and username = '$username'";
+
+    // execute querry
     $result = $db->query($sql);
+
+    // check if there's a valid account
     foreach ($result as $record){
         $logged_in = true;
+        $pw = $record['password'];
         break;
     }
     return $logged_in;
 }
 
+// send header
 header('Content-Type: text/html; charset=UTF-8');
 include('navigation.html');
 
+// is user logged in ?
 if(isset($_POST['login'])){
-    $logged_in = login();
+    $logged_in = authentification();
 }
 
 if($logged_in){
-    echo "Du bist eingeloggt !";
+    global $sql;
+    echo '<div class="container">';
+    echo '<span style="font-size: larger"><p><b><span style="color: red;">Pw wurde gehackt ! Name des Accounts ist:</span> '.$username.'</b></p>';
+    echo '<p><b><span style="color: red;">Pw des Accounts ist:</span> '.$pw.'</b></p>';
+    echo $sql;
+    echo '</span>';
 }
 else{
     echo '<div class="container">';
@@ -35,5 +60,6 @@ else{
     echo '<label><input type="text" name="password">Passwort</label>';
 
     echo '<input type="submit" name="login" value="Login">';
-    echo '</form></div></body></html>';
+    echo '</form>';
 }
+echo '</div></body></html>';
