@@ -16,19 +16,25 @@ function authentification(){
     require_once('./include/connect.php');
     $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-    // set querry parameters
+    // prepared statement to prevent sql injections
+    $sql = "select username, password from users where password = :password and username = :username";
+    $prepare_state = $db->prepare($sql);
+    $prepare_state->bindParam('username', $username);
+    $prepare_state->bindParam('password', $pw);
+
+    // set querry parameters with possibility for sql injection
     $username = $_POST['username'];
     $pw = $_POST['password'];
     $sql = "select username, password from users where password = '$pw' and username = '$username'";
 
     // execute querry
-    $result = $db->query($sql);
+    //$result = $db->query($sql);
+    $prepare_state->execute();
 
     // check if there's a valid account
-    foreach ($result as $record){
+    if($prepare_state -> rowCount()){
         $logged_in = true;
-        $pw = $record['password'];
-        break;
+        $pw = $prepare_state['password'];
     }
     return $logged_in;
 }
